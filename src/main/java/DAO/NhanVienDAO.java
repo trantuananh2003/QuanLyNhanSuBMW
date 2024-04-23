@@ -55,7 +55,7 @@ public class NhanVienDAO {
             statement.setDouble(2, nv.getLuongCoBan());
             statement.setString(3, nv.getEmailCongViec());
             statement.setString(4, nv.getTrangThai());
-            statement.setString(5, nv.getDuongDanAnh());
+            statement.setString(5, nv.getMaNV());
             rowUpdated = statement.executeUpdate() > 0;
         }
         return rowUpdated;
