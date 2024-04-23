@@ -5,6 +5,7 @@
 <%@ page import="Util.JDBCUtils"%>
 <%@ page import="Models.NhanVien"%>
 <%@ page import="Models.LoginBean"%>
+<%@ page import="Controller.QuanLyNhanSuTrucThuoc"%>
 
 <!DOCTYPE html>
 <html>
@@ -22,6 +23,10 @@
 <%
 String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 		+ request.getContextPath();
+LoginBean acc = (LoginBean) session.getAttribute("accLogin");
+QuanLyNhanSuTrucThuoc test = new QuanLyNhanSuTrucThuoc();
+String phanQuyen = (acc != null) ? test.kiemTraQuyenCaoNhat(acc.getMaNhanvien()) : null;
+
 %>
 
 	<link href="<%=url%>/css/sidebar.css" rel="stylesheet">
@@ -73,13 +78,12 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 							</div>
 						</div>
 					</div>
+					<%if ("giamdoc".equals(phanQuyen) || "admin".equals(phanQuyen)) {%>
 					<div class="row d-flex justify-content-end">
 						<button class="btn btn-primary btn-lg btnSize"
 								onclick="openForm1()" role="button">Thêm nhân viên vào phòng ban</button>
 					</div>
-						
-					
-				
+					<%}%>
 			</div>
 
 		</div>
