@@ -10,6 +10,7 @@
 String duongDan = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 		+ request.getContextPath();
 %>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="wrapper">
@@ -33,7 +34,7 @@ String duongDan = request.getScheme() + "://" + request.getServerName() + ":" + 
 		%>
 		<div class="sidebar-header">
 			<h3>
-				<a href="../pages/index.jsp">HR MANAGEMENT</a>
+				<a href="<%=duongDan%>/pages/index.jsp">HR MANAGEMENT</a>
 			</h3>
 		</div>
 		<ul class="list-unstyled components">
