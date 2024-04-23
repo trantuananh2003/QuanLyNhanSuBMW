@@ -108,6 +108,7 @@ public class QuaTrinhCongTacController extends HttpServlet {
 	private void listQTCT(HttpServletRequest request, HttpServletResponse response, String action)
 			throws SQLException, IOException, ServletException {
 		HoSo hs = null;
+
 		if ("edit".equals(action)) {
 			String maNV = request.getParameter("manv");
 			System.out.println(maNV);
@@ -119,7 +120,20 @@ public class QuaTrinhCongTacController extends HttpServlet {
 		} else {
 			hs = (HoSo) request.getAttribute("hoso");
 		}
-
+			
+		System.out.println("Hồ sơ QTCT: " +  hs);
+		
+		//Xử lý khi hs null, đẩy ngược lại trang thêm hồ sơ
+		if(hs == null) {
+			String maNV = request.getParameter("manv");
+			NhanVien existingNV = nhanvienDAO.selectNhanVien(maNV);
+			request.setAttribute("nhanvien", existingNV);
+			
+			request.setAttribute("hanhdongthemnhanvien", "hosoForm");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/themnhanvien.jsp");
+			dispatcher.forward(request, response);
+		}
+		
 		List<QuaTrinhCongTac> listQTCT = qtctDAO.selectAllQTCTTheoMaHS(hs.getMaHS());
 		request.setAttribute("listQTCT", listQTCT);
 

@@ -166,11 +166,19 @@ public class HoSoController extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/themnhanvien.jsp");
 			dispatcher.forward(request, response);
 		}
-		else {
-		    // Thông báo rằng không tìm thấy hồ sơ
-		    response.setContentType("text/html");
-		    PrintWriter out = response.getWriter();
-		    out.println("<h2 style=\"text-align: center; color: red;\">Lay thong tin that bai</h2>");
+		else if(existingHS == null)
+		{
+			String maHS = request.getParameter("inputMaHS");
+
+			HoSo hsNull = new HoSo(maHS, existingNV.getMaNV(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+			request.setAttribute("hoso", hsNull);
+
+			request.setAttribute("nhanvien", existingNV);
+			request.setAttribute("hanhdongthemnhanvien", "hosoForm");
+			request.setAttribute("hanhdongtacdong", "edit");
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/themnhanvien.jsp");
+			dispatcher.forward(request, response);
 		}
 
 

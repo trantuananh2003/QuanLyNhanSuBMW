@@ -139,7 +139,7 @@ public class HoSoDAO {
 		try (Connection connection = JDBCUtils.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_HOSO_BY_MANV);) {
 			preparedStatement.setString(1, MaNV);
-			System.out.println(preparedStatement);
+			System.out.println("Lấy HoSo theo MaNV: " + preparedStatement);
 			ResultSet rs = preparedStatement.executeQuery();
 			
 			while (rs.next()) {
@@ -169,11 +169,10 @@ public class HoSoDAO {
 				hs = new HoSo(maHS, maNV, cccd, noiCapCCCD, ngayCapCCCD, maSoThue, ngayCapMST, soDienThoai, gioiTinh,
 						quocTich, danToc, tonGiao, ngaySinh, noiSinh, diaChi, tinhThanh, quanHuyen, phuongXa,
 						emailCaNhan, tinhTrangHN, trinhDoVanHoa, trinhDoHocVan);
-			}
+				}
 		} catch (SQLException exception) {
 			HandleException.printSQLException(exception);
 		}
-
 		return hs;
 	}
 }

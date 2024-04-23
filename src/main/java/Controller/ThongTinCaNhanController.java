@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -100,17 +101,24 @@ public class ThongTinCaNhanController extends HttpServlet {
 
 			NhanVien nvAccLogin = nvDAO.selectNhanVien(accLogin.getMaNhanvien());
 			HoSo hsAccLogin = hsDAO.selectHoSoByMaNV(accLogin.getMaNhanvien());
+
+			if (nvAccLogin == null || hsAccLogin == null) {
+			    response.setContentType("text/html;charset=UTF-8");
+			    PrintWriter out = response.getWriter();
+			    out.println("<font color=red>Vui lòng liên hệ admin để bổ sung thông tin Hồ Sơ</font>");
+			}
+			
 			List<HopDong> listHopDongAccLogin = hdDAO.selectAllHopDongTheoMaHS(hsAccLogin.getMaHS());
 			List<QuaTrinhCongTac> listQTCTAccLogin = qtctDAO.selectAllQTCTTheoMaHS(hsAccLogin.getMaHS());
 
-			request.setAttribute("nhanvien", nvAccLogin);
-			request.setAttribute("hoso", hsAccLogin);
-			request.setAttribute("listQTCT", listQTCTAccLogin);
-			request.setAttribute("listHopDong", listHopDongAccLogin);
-			request.setAttribute("hanhdongtacdong", "xemthongtincanhan");
-
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/thongtincanhan.jsp");
-			dispatcher.forward(request, response);
+				request.setAttribute("nhanvien", nvAccLogin);
+				request.setAttribute("hoso", hsAccLogin);
+				request.setAttribute("listQTCT", listQTCTAccLogin);
+				request.setAttribute("listHopDong", listHopDongAccLogin);
+				request.setAttribute("hanhdongtacdong", "xemthongtincanhan");
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/thongtincanhan.jsp");
+				dispatcher.forward(request, response);
 
 		} catch (Exception e) {
 			e.printStackTrace();
