@@ -29,7 +29,6 @@ public class KhieuNaiController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		System.out.print(action);
-		
 		try {
 			switch (action) {
 			case "createkn_choduyet":
