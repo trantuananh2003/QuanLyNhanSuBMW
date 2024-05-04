@@ -29,6 +29,9 @@ public class KhieuNaiController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		System.out.print(action);
+		if(action ==null) {
+			response.sendRedirect(request.getContextPath() + "/pages/khieunaiChuaDuyet.jsp");
+		}
 		try {
 			switch (action) {
 			case "createkn_choduyet":

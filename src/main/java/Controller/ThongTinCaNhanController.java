@@ -44,6 +44,11 @@ public class ThongTinCaNhanController extends HttpServlet {
 		String action = request.getParameter("action");
 
 		System.out.println("Action: " + action);
+		if(action ==null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("pages/login.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
 		try {
 			switch (action) {
 			case "laythongtin":

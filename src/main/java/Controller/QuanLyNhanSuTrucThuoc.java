@@ -62,6 +62,11 @@ public class QuanLyNhanSuTrucThuoc extends HttpServlet {
 		String maPB = request.getParameter("mapb");
 		System.out.println("Mã phòng ban: " + maPB);
 		System.out.println("Action: " + action);
+		if(action==null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("pages/quanlynhansu_tructhuoc.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
 		try {
 			switch (action) {
 			case "laythongtin":

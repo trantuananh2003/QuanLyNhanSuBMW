@@ -37,8 +37,13 @@ public class HopDongController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
-
+		
 		System.out.println("Action: " + action);
+		if(action ==null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("pages/login.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
 		try {
 			switch (action) {
 			case "insertHD":
