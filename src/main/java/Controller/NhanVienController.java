@@ -183,8 +183,6 @@ public class NhanVienController extends HttpServlet {
 		return fileName;
 	}
 	
-
-	
 	private void deleteNhanVien(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		String maNV = request.getParameter("manv");
 		nhanvienDAO.deleteNhanVien(maNV);

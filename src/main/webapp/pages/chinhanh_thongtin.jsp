@@ -133,7 +133,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 <!-- Form tạo chi nhánh -->
 <div class="formpopup" id="myForm1"
 	style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-	<form class="form-container" action="<%=duongDanIndex%>/chinhanh">
+	<form class="form-container" action="<%=duongDanIndex%>/chinhanh"  method="post">
 		<h1>Tạo chi nhánh</h1>
 		<input type="hidden" name="action" value="taoCN" />
 
