@@ -25,12 +25,13 @@ public class LoginFilter implements Filter {
 
          
          
-         
+     
 
          String requestPath = request.getServletPath();
          if (!(requestPath.equals("/login")||requestPath.equals("/pages/login.jsp"))) {
         	 HttpSession session = request.getSession();
              LoginBean accLogin = (LoginBean) session.getAttribute("accLogin");
+             System.out.println("filter:login");
              if (accLogin == null) {
             	  
                  response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
