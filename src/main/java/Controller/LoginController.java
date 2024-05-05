@@ -47,6 +47,11 @@ public class LoginController extends HttpServlet {
 		String password = request.getParameter("password");
 		System.out.println(username);
 		System.out.println(password);
+		if(username==null || password ==null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("pages/login.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
 		LoginBean loginBean = new LoginBean();
 		loginBean.setUsername(username);
 		loginBean.setPassword(password);
