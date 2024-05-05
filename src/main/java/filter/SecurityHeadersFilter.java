@@ -16,9 +16,6 @@ public class SecurityHeadersFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-		httpServletResponse.setContentType("text/html"); // Set Content-Type header
-		httpServletResponse.setContentType("text/css"); // Set Content-Type header
-		httpServletResponse.setContentType("text/javascript");
 
 		httpServletResponse.setHeader("X-Content-Type-Options", "nosniff");
 		chain.doFilter(request, response);
