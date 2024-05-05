@@ -111,11 +111,18 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 </body>
 </html>
 
+<%@ page import="filter.CSRFTokenGenerator" %>
+
+<%
+	String csrfToken = CSRFTokenGenerator.generateCSRFToken();
+	session.setAttribute("csrfToken", csrfToken);
+%>
 
 <div class="formpopup" id="formQuaTrinhCongTac"
 	style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
 	<form class="form-container"
 		action="<%=url%>/bangphanquyencontrol?action=insertBPQC">
+		<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}"/>
 		<h1>Thông tin quá trình công tác</h1>
 		<input type="hidden" name="action" value="insertBPQC" />
 		<div class="row gx-3 mb-3">

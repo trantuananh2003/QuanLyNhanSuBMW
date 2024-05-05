@@ -5,6 +5,13 @@
 <%@ page import="Util.JDBCUtils"%>
 <%@ page import="Models.NhanVien"%>
 
+<%@ page import="filter.CSRFTokenGenerator" %>
+
+<%
+	String csrfToken = CSRFTokenGenerator.generateCSRFToken();
+	session.setAttribute("csrfToken", csrfToken);
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -115,11 +122,14 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 </body>
 </html>
 
+
+
 <!-- Form tạo khen thưởng -->
 <div class="formpopup" id="myForm1"
 	style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
 	<form class="form-container"
 		action="<%=duongDanIndex%>/ktkl">
+		<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}"/>
 		<h1>Tạo đơn khen thưởng</h1>
 		<input type="hidden" name="action" value="taoDonKT" />
 		
@@ -155,6 +165,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 	style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
 	<form class="form-container"
 		action="<%=duongDanIndex%>/ktkl">
+		<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}"/>
 		<h1>Tạo đơn kỷ luật</h1>
 		<input type="hidden" name="action" value="taoDonKL" />
 		

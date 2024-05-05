@@ -4,7 +4,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="Util.JDBCUtils"%>
 <%@ page import="Models.NhanVien"%>
-
+<%@ page import="filter.CSRFTokenGenerator" %>
+<%
+	String csrfToken = CSRFTokenGenerator.generateCSRFToken();
+	session.setAttribute("csrfToken", csrfToken);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,6 +45,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 				<h3>Đổi mật khẩu</h3>
 
 				<form action="<%=duongDanIndex%>/taikhoancontrol">
+					<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}"/>
 						<input type="hidden" name="action" value="doimatkhau" />
 				
 					<div class="form-outline form-white mb-4">

@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="Models.LoginBean"%>
+<%@ page import="filter.CSRFTokenGenerator" %>
+<%
+	String csrfToken = CSRFTokenGenerator.generateCSRFToken();
+	session.setAttribute("csrfToken", csrfToken);
+%>
 
 <!DOCTYPE html>
 <html>
@@ -14,8 +19,7 @@
 	crossorigin="anonymous">
 <script
 	src="<%=request.getContextPath()%>/static/jquery/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet"
-	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+
 <title>Insert title here</title>
 </head>
 <body>
@@ -35,6 +39,7 @@
 	%>
 	<form class="login100-form validate-form"
 		action="<%=request.getContextPath()%>/login" method="post">
+		<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}"/>
 		<section class="vh-100 gradient-custom">
 			<div class="container py-5 h-100">
 				<div

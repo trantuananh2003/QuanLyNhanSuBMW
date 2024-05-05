@@ -6,7 +6,12 @@
 <%@ page import="Models.NhanVien"%>
 <%@ page import="Models.LoginBean"%>
 <%@ page import="Controller.QuanLyNhanSuTrucThuoc"%>
+<%@ page import="filter.CSRFTokenGenerator" %>
 
+<%
+	String csrfToken = CSRFTokenGenerator.generateCSRFToken();
+	session.setAttribute("csrfToken", csrfToken);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -110,6 +115,7 @@ String phanQuyen = (acc != null) ? test.kiemTraQuyenCaoNhat(acc.getMaNhanvien())
 <div class="formpopup" id="myForm1"
 	 style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
 	<form class="form-container" action="<%=url%>/quanlynhansutructhuoccontroller">
+		<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}"/>
 		<h1>Thêm nhân viên vào phòng ban</h1>
 		<input type="hidden" name="action" value="themnv" />
 

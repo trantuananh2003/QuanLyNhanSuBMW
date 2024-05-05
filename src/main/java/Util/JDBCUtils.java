@@ -8,9 +8,9 @@ import java.time.LocalDate;
 
 public class JDBCUtils {
 
-	private static String jdbcURL = "jdbc:mysql://localhost:33060/QLNV?";
+	private static String jdbcURL = "jdbc:mysql://localhost:3306/web";
 	private static String jdbcUsername = "root";
-	private static String jdbcPassword = "123456";
+	private static String jdbcPassword = "826479113";
 
 	public static Connection getConnection() {
 		Connection connection = null;
