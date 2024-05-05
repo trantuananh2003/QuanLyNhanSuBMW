@@ -17,8 +17,11 @@ public class SecurityHeadersFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
+		httpServletResponse.setHeader("Access-Control-Allow-Origin", "https://cdn.jsdelivr.net https://ajax.googleapis.com");
+	
 		httpServletResponse.setHeader("X-Content-Type-Options", "nosniff");
 		chain.doFilter(request, response);
+	
 	}
 
 	@Override
