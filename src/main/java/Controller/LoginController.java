@@ -72,11 +72,21 @@ public class LoginController extends HttpServlet {
 		            response.sendRedirect(request.getContextPath() + "/pages/index.jsp");
 		        }
 		    } else {
-		        // Invalid credentials
-		        request.setAttribute("errMsg", "Thông tin đăng nhập thất bại");
-		        RequestDispatcher dispatcher = request.getRequestDispatcher("pages/login.jsp");
-		        dispatcher.forward(request, response);
-		        System.out.println("Thông báo 2");
+		    	HttpSession session = request.getSession();
+				Integer loginAttempts = (Integer) session.getAttribute("loginAttempts");
+				if (loginAttempts == null) {
+					loginAttempts = 0;
+				}
+				loginAttempts++;
+				session.setAttribute("loginAttempts", loginAttempts);
+
+				if (loginAttempts > 3) { // giới hạn là 3 lần
+					request.setAttribute("errMsg", "Bạn đã nhập sai quá 3 lần. Vui lòng thử lại sau.");
+				} else {
+					request.setAttribute("errMsg", "Thông tin đăng nhập thất bại");
+				}
+				RequestDispatcher dispatcher = request.getRequestDispatcher("pages/login.jsp");
+				dispatcher.forward(request, response);
 		    }
 		} catch (ClassNotFoundException e) {
 		    e.printStackTrace();

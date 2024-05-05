@@ -22,6 +22,7 @@ import DAO.NhanVienDAO;
 import Models.NhanVien;
 import DAO.TaiKhoanDAO;
 import Models.TaiKhoan;
+import filter.PasswordGenerate;
 
 @WebServlet("/nhanviencontrol")
 @MultipartConfig(
@@ -121,7 +122,11 @@ public class NhanVienController extends HttpServlet {
 			
 			NhanVien newNV = new NhanVien(maNV, hoTenNV, luongCoBan, emailCV, trangThaiCV, duongDanAnh);
 			nhanvienDAO.insertNhanVien(newNV);
-			taikhoanDAO.insertTK(new TaiKhoan(maNV, "1", maNV));
+			
+			PasswordGenerate pwGenerate = new PasswordGenerate();
+			
+			taikhoanDAO.insertTK(new TaiKhoan(maNV,pwGenerate.generateRandomPassword(10), maNV));
+			
 			if (newNV != null) {
 				request.setAttribute("nhanvien", newNV);
 				request.setAttribute("hanhdongthemnhanvien", "hosoForm");
