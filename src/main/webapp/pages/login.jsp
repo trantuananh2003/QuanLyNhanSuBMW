@@ -1,21 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" %>
 <%@ page import="Models.LoginBean"%>
 <%@ page import="filter.CSRFTokenGenerator" %>
 <%
 	String csrfToken = CSRFTokenGenerator.generateCSRFToken();
 	session.setAttribute("csrfToken", csrfToken);
 %>
-
+<%
+String nonce = (String) request.getAttribute("nonce");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<%
-String nonce = (String) request.getAttribute("nonce");
-%>
+
 <script
 	src="<%=request.getContextPath()%>/static/jquery/jquery-3.6.0.min.js"></script>
 

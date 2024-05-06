@@ -39,8 +39,7 @@ import javax.servlet.http.HttpServletRequest;
 		        	    "media-src 'self'; " +
 		        	    "object-src 'self'; " +
 		        	    "manifest-src 'self';";
-		        	httpResponse.setHeader("Content-Security-Policy", cspDirective);
-
+		        httpResponse.setHeader("Content-Security-Policy", cspDirective);
 		        
 		        chain.doFilter(request, response);
 		    }
