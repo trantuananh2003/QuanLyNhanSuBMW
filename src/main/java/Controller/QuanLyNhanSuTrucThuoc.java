@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -144,38 +145,55 @@ public class QuanLyNhanSuTrucThuoc extends HttpServlet {
 	}
 	
 	
-	private void LayThongTinPhongBan(HttpServletRequest request, HttpServletResponse response, String action)
-			throws SQLException, IOException, ServletException {
-		
-		String maPB = request.getParameter("mapb");
-		String maCN = request.getParameter("macn");
+	private void LayThongTinPhongBan(HttpServletRequest request, HttpServletResponse response, String action) throws SQLException, IOException, ServletException {
 
-		HttpSession session = request.getSession();
-		LoginBean tk = (LoginBean) session.getAttribute("accLogin");
+	    try {
+	        String maPB = request.getParameter("mapb");
+	        String maCN = request.getParameter("macn");
 
-		String kiemTra = kiemTraQuyenHanByMaPB(tk.getMaNhanvien(), maPB, maCN);
-		if(kiemTraQuyenCaoNhat(tk.getMaNhanvien()).equals("admin")) {
-			kiemTra = "coquyen";
-		}
-		System.out.println(kiemTra);
+	        HttpSession session = request.getSession();
+	        LoginBean tk = (LoginBean) session.getAttribute("accLogin");
 
-		if(kiemTra.equals("khongcoquyen"))
-		{
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/KhongCoQuyen.jsp");
-			dispatcher.forward(request, response);
-		}
-		else
-		{
-			List<BangPhanQuyen> listBPQ = bpqDAO.selectAllBangPhanQuyenByMaPB(maPB);
-			PhongBan pb = pbDAO.SelectPBByMaPB(maPB);
-	
-			request.setAttribute("listBPQ", listBPQ);
-			request.setAttribute("pb", pb);
-	
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/quanlynhansu_tructhuoc.jsp");
-			dispatcher.forward(request, response);
-		}
+	        if (tk == null) {
+	            // Redirect to login page if user is not logged in
+	            response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+	            return;
+	        }
+
+	        String kiemTra = kiemTraQuyenHanByMaPB(tk.getMaNhanvien(), maPB, maCN);
+	        if (kiemTraQuyenCaoNhat(tk.getMaNhanvien()).equals("admin")) {
+	            kiemTra = "coquyen";
+	        }
+	        System.out.println(kiemTra);
+
+	        if (kiemTra.equals("khongcoquyen")) {
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/KhongCoQuyen.jsp");
+	            dispatcher.forward(request, response);
+	        } else {
+	            List<BangPhanQuyen> listBPQ = bpqDAO.selectAllBangPhanQuyenByMaPB(maPB);
+	            PhongBan pb = pbDAO.SelectPBByMaPB(maPB);
+
+	            request.setAttribute("listBPQ", listBPQ);
+	            request.setAttribute("pb", pb);
+
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/quanlynhansu_tructhuoc.jsp");
+	            dispatcher.forward(request, response);
+	        }
+	    } catch (Exception e) {
+	        String alertMessage = "Lỗi từ hệ thống";
+			sendCatchError(request,response, alertMessage);
+	    }
 	}
+	
+	private void sendCatchError(HttpServletRequest request, HttpServletResponse response, String alertMessage)  
+			throws SQLException, IOException, ServletException 
+	{
+    	response.setContentType("text/html;charset=UTF-8");
+    	PrintWriter out = response.getWriter(); 
+    	// Hiển thị thông báo cảnh báo nếu thiếu thông tin
+        out.println("<script>alert('" + alertMessage + "');</script>"); 
+	}
+	
 	private void ThemNVvaoPB(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
 		String maNV = request.getParameter("inputMaNV");

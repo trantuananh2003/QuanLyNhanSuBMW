@@ -92,6 +92,11 @@ public class NhanVienController extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
+		if(action==null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("pages/login.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
 		System.out.println(action);
 		try {
 			switch (action) {
