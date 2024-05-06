@@ -12,15 +12,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-	crossorigin="anonymous">
+<link href="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<%
+String nonce = (String) request.getAttribute("nonce");
+%>
 <script
 	src="<%=request.getContextPath()%>/static/jquery/jquery-3.6.0.min.js"></script>
 
 <title>Insert title here</title>
+<style nonce="<%= nonce %>">
+ .chinhstyle {
+    border-radius: 1rem;
+}
+    
+   
+
+</style>
 </head>
 <body>
 	<%
@@ -45,7 +52,7 @@
 				<div
 					class="row d-flex justify-content-center align-items-center h-100">
 					<div class="col-12 col-md-8 col-lg-6 col-xl-5">
-						<div class="card bg-dark text-white" style="border-radius: 1rem;">
+						<div class="card bg-dark text-white chinhstyle" >
 							<div class="card-body p-5 text-center">
 
 								<div class="mb-md-5 mt-md-4 pb-5">

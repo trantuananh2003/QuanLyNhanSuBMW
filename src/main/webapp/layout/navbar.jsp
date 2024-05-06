@@ -9,7 +9,9 @@
 String duongDan = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 		+ request.getContextPath();
 %>
-
+<%
+String nonce = (String) request.getAttribute("nonce");
+%>
 <%
 	String errMsg = (String) request.getAttribute("errMsg");
 	LoginBean acc = (LoginBean) session.getAttribute("accLogin");
@@ -23,10 +25,17 @@ if (acc == null && errMsg != null) {
 	<p
 		style="color: red; font-weight: bold; border: 1px solid red; padding: 10px; display: inline-block;"><%=errMsg%></p>
 </div>
+
+<style nonce="<%= nonce %>">
+ 
+    .btn-group button {
+        width: 100px;
+    }
+</style>
 <%
 }
 %>
-<div class="navbar-header">
+<div class="navbar-header "  nonce="<%= nonce %>">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-fluid">
 
@@ -52,12 +61,10 @@ if (acc == null && errMsg != null) {
                            	</li>
                         <% } %>
 					<li class="nav-item">
-						<div class="btn-group">
-							<button class="btn dropdown-toggle" type="button"
-								data-bs-toggle="dropdown" aria-expanded="false"
-								style="width: 100px">
-								<i class="fa fa-bars"></i>
-							</button>
+						<div class="btn-group" >
+							<button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" ">
+        						<i class="fa fa-bars"></i>
+    						</button>
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" href="<%=duongDan%>/thongtincanhancontrol?action=laythongtin">Thông tin cá nhân</a></li>
 								<li><a class="dropdown-item" href="<%=duongDan%>/pages/doimatkhau.jsp">Đổi mật khẩu</a></li>

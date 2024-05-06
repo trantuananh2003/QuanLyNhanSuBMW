@@ -11,8 +11,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link href="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
 
@@ -20,14 +19,40 @@
 String duongDanIndex = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 		+ request.getContextPath();
 %>
+<%
+String nonce = (String) request.getAttribute("nonce");
+%>
 <link href="<%=duongDanIndex%>/css/sidebar.css" rel="stylesheet">
 <link href="<%=duongDanIndex%>/css/profile.css" rel="stylesheet">
 <title>Quản lý nhân viên</title>
+<style nonce="<%= nonce %>">
+ .col-2 {
+        padding-left: 0px;
+    }
+	#employeeTable th:nth-child(6) {
+    width: 100px;
+	}
+	.formpopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    }
+    nav.pagination-nav {
+    display: flex;
+    float: left;
+    }
+    .size1{
+    width: 700px;
+    }
+
+</style>
 </head>
 <body>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-2" style="padding-left: 0px;">
+			<div class="col-2" >
 				<jsp:include page="../layout/sidebar.jsp"></jsp:include>
 
 			</div>
@@ -45,7 +70,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 							<th>Mã chi nhánh</th>
 							<th>Trạng thái</th>
 
-							<th style="width: 100px;">Thao tác</th>
+							<th >Thao tác</th>
 
 						</tr>
 					</thead>
@@ -69,8 +94,8 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 					</tbody>
 				</table>
 				<!-- thanh đếm trang -->
-				<nav aria-label="Page navigation pagePos"
-					style="display: flex; float: left;">
+				<nav aria-label="Page navigation pagePos" class="pagination-nav"
+					>
 					<ul class="pagination justify-content-center">
 						<li class="page-item disabled"><a class="page-link" href="#"
 							tabindex="-1">Previous</a></li>
@@ -99,7 +124,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 
 	<script type="text/javascript" src="../js/main.js"></script>
 	<script type="text/javascript" src="../js/chinhanhphongban.js"></script>
-	<script type="text/javascript">
+	<script type="text/javascript" nonce="<%= nonce %>">
 		$(document).ready(function() {
 			$('#sidebarCollapse').on('click', function() {
 				$('#sidebar').toggleClass('active');
@@ -113,7 +138,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 
 <!-- Form tạo chi nhánh -->
 <div class="formpopup" id="myForm1"
-	style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+>
 	<form class="form-container" action="<%=duongDanIndex%>/phongban">
 		<h1>Tạo phòng ban</h1>
 		<input type="hidden" name="action" value="taoPB" />
@@ -148,7 +173,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 
 <!-- Form sửa pb-->
 <div class="formpopup" id="myForm2"
-	style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+>
 	<form class="form-container" action="<%=duongDanIndex%>/phongban">
 		<h1>Chỉnh sửa phòng ban</h1>
 		<input type="hidden" name="action" value="suaPB" />
@@ -194,7 +219,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 
 <!-- Form cập nhật giám đốc-->
 <div class="formpopup" id="myForm3"
-	style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+>
 	<form class="form-container" action="<%=duongDanIndex%>/phongban">
 		<h1>Xem khiếu nại</h1>
 		<input type="hidden" name="action" value="capnhatGDPB" />
@@ -221,13 +246,13 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 
 <!-- xóa chi nhánh -->
 <div class="formpopup" id="myForm4"
-	style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+>
 	<form class="form-container" action="<%=duongDanIndex%>/phongban">
 		<h1>Xóa</h1>
 		<input type="hidden" name="action" value="xoaPB" />
 
 		<div class="row gx-3 mb-3">
-			<div class="col-md-3" style="width: 700px">
+			<div class="col-md-3 size1" >
 				<input type="hidden" id="mapb_input4" name="mapb_input4">
 				<h2>Bạn có chắc chắn muốn xóa phòng ban này</h2>
 			</div>
@@ -238,7 +263,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 	</form>
 </div>
 
-<script>
+<script nonce="<%= nonce %>">
 	function openForm1(id) {
 		document.getElementById("myForm1").style.display = "block";
 	}

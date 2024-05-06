@@ -12,6 +12,7 @@ public class JDBCUtils {
 	private static String jdbcUsername = "root";
 	private static String jdbcPassword = "";
 
+
 	public static Connection getConnection() {
 		Connection connection = null;
 		try {

@@ -12,10 +12,13 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link href="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+	
+	<%
+String nonce = (String) request.getAttribute("nonce");
+%>
 
 <%
 String duongDanIndex = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -23,6 +26,33 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 %>
 <link href="<%=duongDanIndex%>/css/sidebar.css" rel="stylesheet">
 <title>Quản lý nhân viên</title>
+<style nonce="<%= nonce %>">
+ .col-2 {
+        padding-left: 0px;
+    }
+	#employeeTable th:nth-child(5) {
+    width: 150px;
+	}
+	.formpopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    }
+	.card-body {
+	    text-align: center;
+	}
+	#inputDuongDanAnh {
+	    display: none;
+	}
+	
+	#previewImage {
+	    max-width: 100%;
+	    max-height: 200px;
+	}
+
+</style>
 </head>
 <body>
 	<%
@@ -40,7 +70,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 	%>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-2" style="padding-left: 0px;">
+			<div class="col-2" >
 				<jsp:include page="../layout/sidebar.jsp"></jsp:include>
 
 			</div>
@@ -96,7 +126,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 		src="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	
 	<script type="text/javascript" src="../js/main.js"></script>
-	<script type="text/javascript">
+	<script type="text/javascript" nonce="<%= nonce %>">
 		$(document).ready(function() {
 			$('#sidebarCollapse').on('click', function() {
 				$('#sidebar').toggleClass('active');

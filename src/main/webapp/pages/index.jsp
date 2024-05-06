@@ -12,8 +12,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link href="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
 
@@ -21,11 +20,20 @@
 String duongDanIndex = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 		+ request.getContextPath();
 %>
+<%
+String nonce = (String) request.getAttribute("nonce");
+%>
 
 
 <link href="<%=duongDanIndex%>/css/sidebar.css" rel="stylesheet">
 <link href="<%=duongDanIndex%>/css/profile.css" rel="stylesheet">
 <title>Quản lý nhân viên</title>
+<style nonce="<%= nonce %>">
+    .col-2 {
+        padding-left: 0px;
+    }
+</style>
+
 </head>
 <body>
 	<%
@@ -43,8 +51,8 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 	}
 	%>
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col-2" style="padding-left: 0px;">
+		<div class="row" >
+			<div class="col-2" >
 				<jsp:include page="../layout/sidebar.jsp"></jsp:include>
 			</div>
 			<div class="col-10" id="content">
@@ -53,12 +61,11 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 		</div>
 	</div>
 
-	<script src="<%=request.getContextPath()%>/static/jquery/jquery-3.6.4.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="<%=request.getContextPath()%>/static/jquery/jquery-3.6.4.min.js" ></script>
+	<script src="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-	<script type="text/javascript" src="../js/main.js"></script>
-	<script type="text/javascript">
+<script type="text/javascript" nonce="<%= nonce %>" src="../js/main.js"></script>
+<script type="text/javascript" nonce="<%= nonce %>">
 		$(document).ready(function() {
 			$('#sidebarCollapse').on('click', function() {
 				$('#sidebar').toggleClass('active');

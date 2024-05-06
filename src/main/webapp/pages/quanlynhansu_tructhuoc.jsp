@@ -12,17 +12,32 @@
 	String csrfToken = CSRFTokenGenerator.generateCSRFToken();
 	session.setAttribute("csrfToken", csrfToken);
 %>
+<%
+String nonce = (String) request.getAttribute("nonce");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link href="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+<style nonce="<%= nonce %>">
+ .col-2 {
+        padding-left: 0px;
+    }
+	.formpopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    }
+  
 
+</style>
 
 
 <%
@@ -43,7 +58,7 @@ String phanQuyen = (acc != null) ? test.kiemTraQuyenCaoNhat(acc.getMaNhanvien())
 
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-2" style="padding-left: 0px;">
+			<div class="col-2">
 				<jsp:include page="../layout/sidebar.jsp"></jsp:include>
 
 			</div>
@@ -98,9 +113,9 @@ String phanQuyen = (acc != null) ? test.kiemTraQuyenCaoNhat(acc.getMaNhanvien())
 		src="<%=request.getContextPath()%>/static/jquery/jquery-3.6.0.min.js"></script>
 	<script
 		src="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="<%=url%>/js/validate_form.js"></script>
+	<script src="<%=url%>/js/validate_form.js" nonce="<%= nonce %>"></script>
 	<script type="text/javascript" src="../js/main.js"></script>
-	<script type="text/javascript">
+	<script type="text/javascript" nonce="<%= nonce %>">
 		$(document).ready(function() {
 			$('#sidebarCollapse').on('click', function() {
 				$('#sidebar').toggleClass('active');
@@ -113,7 +128,7 @@ String phanQuyen = (acc != null) ? test.kiemTraQuyenCaoNhat(acc.getMaNhanvien())
 </html>
 
 <div class="formpopup" id="myForm1"
-	 style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+	>
 	<form class="form-container" action="<%=url%>/quanlynhansutructhuoccontroller">
 		<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}"/>
 		<h1>Thêm nhân viên vào phòng ban</h1>
@@ -134,7 +149,7 @@ String phanQuyen = (acc != null) ? test.kiemTraQuyenCaoNhat(acc.getMaNhanvien())
 	</form>
 </div>
 
-<script>
+<script nonce="<%= nonce %>">
 	function openForm1() {
 		document.getElementById("myForm1").style.display = "block";
 	}

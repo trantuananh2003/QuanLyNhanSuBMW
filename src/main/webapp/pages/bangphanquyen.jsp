@@ -13,8 +13,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link href="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
 
@@ -22,9 +21,23 @@
 String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 		+ request.getContextPath();
 %>
+<%
+String nonce = (String) request.getAttribute("nonce");
+%>
 <link href="<%=url%>/css/sidebar.css" rel="stylesheet">
 <link href="<%=url%>/css/profile.css" rel="stylesheet">
 <title>Quản lý nhân viên</title>
+<style nonce="<%= nonce %>">
+    .col-2 {
+        padding-left: 0px;
+    }
+    .formpopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+</style>
 </head>
 <body>
 		<%
@@ -43,7 +56,7 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 	%>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-2" style="padding-left: 0px;">
+			<div class="col-2" ">
 				<jsp:include page="../layout/sidebar.jsp"></jsp:include>
 
 			</div>
@@ -98,8 +111,8 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 	<script
 		src="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-	<script type="text/javascript" src="../js/main.js"></script>
-	<script type="text/javascript">
+	<script type="text/javascript" src="../js/main.js" nonce="<%= nonce %>"></script>
+	<script type="text/javascript" nonce="<%= nonce %>">
 		$(document).ready(function() {
 			$('#sidebarCollapse').on('click', function() {
 				$('#sidebar').toggleClass('active');
@@ -118,8 +131,7 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 	session.setAttribute("csrfToken", csrfToken);
 %>
 
-<div class="formpopup" id="formQuaTrinhCongTac"
-	style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+<div class="formpopup" id="formQuaTrinhCongTac" >
 	<form class="form-container"
 		action="<%=url%>/bangphanquyencontrol?action=insertBPQC">
 		<input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}"/>
@@ -174,7 +186,7 @@ String url = request.getScheme() + "://" + request.getServerName() + ":" + reque
 	</form>
 </div>
 
-<script>
+<script  nonce="<%= nonce %>">
 	function openFormQTCT() {
 		document.getElementById("formQuaTrinhCongTac").style.display = "block";
 	}

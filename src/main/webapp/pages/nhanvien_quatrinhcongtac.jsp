@@ -8,7 +8,9 @@
 String duongDanQTCT = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 		+ request.getContextPath();
 %>
-
+<%
+String nonce = (String) request.getAttribute("nonce");
+%>
 <form id="thongtincoban-form">
 	<div class="row">
 		<div class="col-xl-8">
@@ -146,7 +148,7 @@ String duongDanQTCT = request.getScheme() + "://" + request.getServerName() + ":
 	</form>
 </div>
 
-<script>
+<script  nonce="<%= nonce %>">
 	function openFormQTCT() {
 		document.getElementById("formQuaTrinhCongTac").style.display = "block";
 	}
