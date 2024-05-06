@@ -12,8 +12,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link href="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
 
@@ -21,8 +20,23 @@
 String duongDanIndex = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 		+ request.getContextPath();
 %>
+<%
+String nonce = (String) request.getAttribute("nonce");
+%>
 <link href="<%=duongDanIndex%>/css/sidebar.css" rel="stylesheet">
 <title>Quản lý nhân viên</title>
+<style nonce="<%= nonce %>">
+    .col-2 {
+        padding-left: 0px;
+    }
+     #employeeTable th:nth-child(5) {
+       width: 100px;
+   }
+   nav.styled-nav {
+       display: flex;
+       float: left;
+   }
+</style>
 </head>
 <body>
 
@@ -41,7 +55,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 		%>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-2" style="padding-left: 0px;">
+			<div class="col-2" >
 				<jsp:include page="../layout/sidebar.jsp"></jsp:include>
 
 			</div>
@@ -56,7 +70,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 								<th>Số quyết định</th>
 								<th>Nội dung khen thưởng</th>						
 								<th>Ngày gửi</th>
-								<th style="width: 100px;">Thao tác</th>
+								<th >Thao tác</th>
 								
 							</tr>
 						</thead>
@@ -82,7 +96,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 						</tbody>
 					</table>
 					<!-- thanh đếm trang -->
-					<nav aria-label="Page navigation pagePos" style="display: flex; float: left;">
+					<nav aria-label="Page navigation pagePos" >
 					  <ul class="pagination justify-content-center">
 					    <li class="page-item disabled">
 					      <a class="page-link" href="#" tabindex="-1">Previous</a>
@@ -109,7 +123,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 		src="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 	<script type="text/javascript" src="../js/main.js"></script>
-	<script type="text/javascript">
+	<script type="text/javascript" nonce="<%= nonce %>">
 		$(document).ready(function() {
 			$('#sidebarCollapse').on('click', function() {
 				$('#sidebar').toggleClass('active');

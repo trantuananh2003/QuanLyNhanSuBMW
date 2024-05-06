@@ -6,6 +6,9 @@
 String duongDanHoSo = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 		+ request.getContextPath();
 %>
+<%
+String nonce = (String) request.getAttribute("nonce");
+%>
 <form id="hoso-form" name="hoso_form"
 	action="<%=duongDanHoSo%>/hosocontrol">
 	<div class="row">
@@ -274,13 +277,13 @@ String duongDanHoSo = request.getScheme() + "://" + request.getServerName() + ":
 
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-	></script>
+	 nonce="<%= nonce %>" ></script>
 <script
-	src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-<script src="<%=duongDanHoSo%>/js/api_tinhthanh.js"></script>
+	src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" nonce="<%= nonce %>"></script>
+<script src="<%=duongDanHoSo%>/js/api_tinhthanh.js" nonce="<%= nonce %>"></script>
 
 
-<script>
+<script nonce="<%= nonce %>">
     // Giả sử bạn có các giá trị hoso.tinhThanh, hoso.quanHuyen, hoso.phuongXa từ server-side
     var tinhThanhValue = "<c:out value='${hoso.tinhThanh}'/>";
     var quanHuyenValue = "<c:out value='${hoso.quanHuyen}'/>";

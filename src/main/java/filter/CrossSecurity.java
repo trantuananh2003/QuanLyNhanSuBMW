@@ -22,41 +22,36 @@ import javax.servlet.http.HttpServletRequest;
 		            throws IOException, ServletException {
 		        HttpServletRequest httpRequest = (HttpServletRequest) request;
 		        HttpServletResponse httpResponse = (HttpServletResponse) response;
-		        String duongDanIndex = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-		            + ((HttpServletRequest) request).getContextPath();
-
-		    
-
+		  
+		        if (nonce == null) {
+		            nonce = generateNonce();
+		        }
+		        httpRequest.setAttribute("nonce", nonce);
 		        String cspDirective =
-		                "script-src 'self' ; " +
-		                "style-src 'self';" +
-		                "img-src 'self';" +
-		                "font-src 'self';"+
-		        "frame-ancestors 'self'; " + 
-		        "form-action 'self'; " + // Chỉ cho phép form submit đến chính trang web hiện tại
-	            "connect-src 'self'; " + // Chỉ cho phép kết nối từ chính trang web hiện tại
-	            "frame-src 'self'; " + // Chỉ cho phép frame được nhúng từ chính trang web hiện tại
-	            "media-src 'self'; " + // Chỉ cho phép truy cập đến phương tiện từ chính trang web hiện tại
-	            "object-src 'self'; " + // Không cho phép nhúng đối tượng từ bất kỳ nguồn nào
-		        "manifest-src 'self' ; ";
-//		        httpResponse.setHeader("Content-Security-Policy", cspDirective);
-		        
-		        
-			
+		        		"script-src 'self' 'nonce-" + nonce + "'; " +
+		        		"style-src 'self' 'nonce-" + nonce + "' https://pro.fontawesome.com https://fonts.googleapis.com; " +
+		        	    "img-src 'self'; " +
+		        	    "font-src 'self' https://pro.fontawesome.com https://fonts.gstatic.com ;  " +
+		        	    "frame-ancestors 'self'; " +
+		        	    "form-action 'self'; " +
+		        	    "connect-src 'self'  'nonce-" + nonce + "';" +
+		        	    "frame-src 'self'; " +
+		        	    "media-src 'self'; " +
+		        	    "object-src 'self'; " +
+		        	    "manifest-src 'self';";
+		        	httpResponse.setHeader("Content-Security-Policy", cspDirective);
 
-		        // Tiếp tục chuỗi filter
+		        
 		        chain.doFilter(request, response);
 		    }
 
-		    // Các phương thức khác...
 
-		    // Hàm sinh giá trị nonce ngẫu nhiên
 		    private String generateNonce() {
 		        byte[] nonceBytes = new byte[16];
 		        new SecureRandom().nextBytes(nonceBytes);
 		        return Base64.getEncoder().encodeToString(nonceBytes);
 		    }
-
+		    
 			@Override
 			public void destroy() {
 				// TODO Auto-generated method stub

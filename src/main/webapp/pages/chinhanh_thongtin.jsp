@@ -12,8 +12,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link href="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
 
@@ -21,9 +20,34 @@
 String duongDanIndex = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 		+ request.getContextPath();
 %>
+
+<%
+String nonce = (String) request.getAttribute("nonce");
+%>
 <link href="<%=duongDanIndex%>/css/sidebar.css" rel="stylesheet">
 <link href="<%=duongDanIndex%>/css/profile.css" rel="stylesheet">
 <title>Quản lý nhân viên</title>
+<style nonce="<%= nonce %>">
+    .col-2 {
+        padding-left: 0px;
+    }
+    .formpopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    }
+     #employeeTable th:nth-child(5) {
+            width: 200px;
+        }
+     .styled-nav {
+            display: flex;
+            float: left;
+        }
+       .buttoncsp {
+    }
+</style>
 </head>
 <body>
 	<%
@@ -42,7 +66,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 	%>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-2" style="padding-left: 0px;">
+			<div class="col-2" >
 				<jsp:include page="../layout/sidebar.jsp"></jsp:include>
 
 			</div>
@@ -59,7 +83,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 							<th>Mã giám đốc</th>
 							<th>Trạng thái</th>
 
-							<th style="width: 200px;">Thao tác</th>
+							<th>Thao tác</th>
 
 						</tr>
 					</thead>
@@ -92,7 +116,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 				</table>
 				<!-- thanh đếm trang -->
 				<nav aria-label="Page navigation pagePos"
-					style="display: flex; float: left;">
+					>
 					<ul class="pagination justify-content-center">
 						<li class="page-item disabled"><a class="page-link" href="#"
 							tabindex="-1">Previous</a></li>
@@ -104,8 +128,8 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 					</ul>
 				</nav>
 				<div class="d-flex justify-content-end">
-					<button class="btn btn-primary btn-lg btnSize"
-						onclick="openForm1()" role="button">Tạo chi nhánh</button>
+					<button class="btn btn-primary btn-lg btnSize buttoncsp "  
+						onclick="openForm1()" role="button" >Tạo chi nhánh</button>
 				</div>
 			</div>
 		</div>
@@ -118,7 +142,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 
 	<script type="text/javascript" src="../js/main.js"></script>
 	<script type="text/javascript" src="../js/chinhanhphongban.js"></script>
-	<script type="text/javascript">
+	<script type="text/javascript"  nonce="<%= nonce %>">
 		$(document).ready(function() {
 			$('#sidebarCollapse').on('click', function() {
 				$('#sidebar').toggleClass('active');
@@ -131,8 +155,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 </html>
 
 <!-- Form tạo chi nhánh -->
-<div class="formpopup" id="myForm1"
-	style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+<div class="formpopup" id="myForm1">
 	<form class="form-container" action="<%=duongDanIndex%>/chinhanh">
 		<h1>Tạo chi nhánh</h1>
 		<input type="hidden" name="action" value="taoCN" />
@@ -159,12 +182,10 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 </div>
 
 <!-- Form sửa cn-->
-<div class="formpopup" id="myForm2"
-	style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+<div class="formpopup" id="myForm2">
 	<form class="form-container" action="<%=duongDanIndex%>/chinhanh">
 		<h1>Chỉnh sửa chi nhánh</h1>
 		<input type="hidden" name="action" value="suaCN" />
-
 		<div class="row gx-3 mb-3">
 			<div class="col-md-3">
 				<label class="small mb-1" for="macn_input2">Mã chi nhánh</label> <input
@@ -204,8 +225,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 </div>
 
 <!-- Form cập nhật giám đốc-->
-<div class="formpopup" id="myForm3"
-	style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+<div class="formpopup" id="myForm3" >
 	<form class="form-container" action="<%=duongDanIndex%>/chinhanh">
 		<h1>Xem khiếu nại</h1>
 		<input type="hidden" name="action" value="capnhatGDCN" />
@@ -231,14 +251,13 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 </div>
 
 <!-- xóa chi nhánh -->
-<div class="formpopup" id="myForm4"
-	style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+<div class="formpopup" id="myForm4">
 	<form class="form-container" action="<%=duongDanIndex%>/chinhanh">
 		<h1>Xóa</h1>
 		<input type="hidden" name="action" value="xoaCN" />
 
 		<div class="row gx-3 mb-3">
-			<div class="col-md-3" style="width: 700px">
+			<div class="col-md-3" >
 				<input type="hidden" id="macn_input4" name="macn_input4">
 				<h2>Bạn có chắc chắn muốn xóa chi nhánh này</h2>
 			</div>
@@ -249,7 +268,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 	</form>
 </div>
 
-<script>
+<script  nonce="<%= nonce %>" >
 	function openForm1(id) {
 		document.getElementById("myForm1").style.display = "block";
 	}

@@ -10,6 +10,9 @@
 String duongDan = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 		+ request.getContextPath();
 %>
+<%
+String nonce = (String) request.getAttribute("nonce");
+%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
@@ -169,7 +172,7 @@ String duongDan = request.getScheme() + "://" + request.getServerName() + ":" + 
 		</ul>
 
 
-		<script>
+		<script nonce="<%= nonce %>">
     var isSubMenu1Open = false;
 
     function toggleCollapseAndCall() {

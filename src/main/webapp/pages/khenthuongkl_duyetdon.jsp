@@ -12,8 +12,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link href="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
 
@@ -21,9 +20,37 @@
 String duongDanIndex = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 		+ request.getContextPath();
 %>
+<%
+String nonce = (String) request.getAttribute("nonce");
+%>
 <link href="<%=duongDanIndex%>/css/sidebar.css" rel="stylesheet">
 <link href="<%=duongDanIndex%>/css/profile.css" rel="stylesheet">
 <title>Quản lý nhân viên</title>
+<style nonce="<%= nonce %>">
+    .col-2 {
+        padding-left: 0px;
+    }
+	#employeeTable {
+    height: 750px;
+	}
+	#employeeTable th:nth-child(8) {
+    width: 250px;
+	}
+	.formpopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    }
+    nav.styled-nav {
+    display: flex;
+    float: left;
+	}
+	.size1{
+	width: 700px;
+	}
+</style>
 </head>
 <body>
 
@@ -44,7 +71,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 	
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-2" style="padding-left: 0px;">
+			<div class="col-2" >
 				<jsp:include page="../layout/sidebar.jsp"></jsp:include>
 
 			</div>
@@ -54,7 +81,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 
 				<table id="employeeTable"
 					class="table table-bordered border-primary table-fixed"
-					style="height: 750px">
+					>
 					<thead class="table-dark">
 						<tr>
 							<th>Mã số</th>
@@ -64,7 +91,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 							<th>Ngày gửi</th>
 							<th>Trạng thái</th>
 							<th>Loại</th>
-							<th style="width: 250px;">Thao tác</th>
+							<th >Thao tác</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -90,7 +117,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 				</table>
 				<!-- thanh đếm trang -->
 				<nav aria-label="Page navigation pagePos"
-					style="display: flex; float: left;">
+					>
 					<ul class="pagination justify-content-center">
 						<li class="page-item disabled"><a class="page-link" href="#"
 							tabindex="-1">Previous</a></li>
@@ -117,7 +144,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 		
 	</script>
 
-	<script type="text/javascript">
+	<script type="text/javascript" nonce="<%= nonce %>">
 		
 	</script>
 
@@ -125,8 +152,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 </html>
 
 <!-- Form duyệt  -->
-<div class="formpopup" id="myForm1"
-	style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+<div class="formpopup" id="myForm1" >
 	<form class="form-container" action="<%=duongDanIndex%>/ktkl">
 		<h1>Duyệt</h1>
 		<input type="hidden" name="action" value="duyetDonKT" />
@@ -172,14 +198,13 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 
 
 <!-- Form xóa -->
-<div class="formpopup" id="myForm2"
-	style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+<div class="formpopup" id="myForm2" >
 	<form class="form-container" action="<%=duongDanIndex%>/ktkl">
 		<h1>Xóa</h1>
 		<input type="hidden" name="action" value="xoaDuyet" />
 
 		<div class="row gx-3 mb-3">
-			<div class="col-md-3" style="width: 700px">
+			<div class="col-md-3 size1" >
 				<input type="hidden" id="maQD_input2" name="maQD_input2">
 				<h2>Bạn có chắc chắn muốn xóa nội dung này</h2>
 			</div>
@@ -190,7 +215,7 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 	</form>
 </div>
 
-<script>
+<script nonce="<%= nonce %>">
 	function openForm1(maDG,maNV,noiDung) {
 				
 		document.getElementById("myForm1").style.display = "block";

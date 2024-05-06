@@ -8,6 +8,9 @@
 String duongDanHopDong = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 		+ request.getContextPath();
 %>
+<%
+String nonce = (String) request.getAttribute("nonce");
+%>
 <form id="hopdong-form">
 	<div class="row">
 		<div class="col-xl-8">
@@ -108,7 +111,7 @@ String duongDanHopDong = request.getScheme() + "://" + request.getServerName() +
 </form>
 
 <div class="formpopup" id="myForm"
-	style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+>
 	<form class="form-container"
 		action="<%=duongDanHopDong%>/hopdongcontrol">
 		<h1>Thông tin Hợp Đồng</h1>
@@ -174,7 +177,7 @@ String duongDanHopDong = request.getScheme() + "://" + request.getServerName() +
 	</form>
 </div>
 
-<script>
+<script nonce="<%= nonce %>">
 	function openForm() {
 		document.getElementById("myForm").style.display = "block";
 	}

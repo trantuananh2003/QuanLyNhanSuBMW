@@ -11,8 +11,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link href="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
 
@@ -20,9 +19,17 @@
 String duongDanIndex = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 		+ request.getContextPath();
 %>
+<%
+String nonce = (String) request.getAttribute("nonce");
+%>
 <link href="<%=duongDanIndex%>/css/sidebar.css" rel="stylesheet">
 <link href="<%=duongDanIndex%>/css/profile.css" rel="stylesheet">
 <title>Quản lý nhân viên</title>
+<style nonce="<%= nonce %>">
+ .col-2 {
+        padding-left: 0px;
+    }
+</style>
 </head>
 <body>
 	<div class="container-fluid">
@@ -70,10 +77,10 @@ String duongDanIndex = request.getScheme() + "://" + request.getServerName() + "
 		src="<%=request.getContextPath()%>/static/jquery/jquery-3.6.0.min.js"></script>
 	<script
 		src="<%=request.getContextPath()%>/static/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="<%=duongDanIndex%>/js/validate_form.js"></script>
+	<script src="<%=duongDanIndex%>/js/validate_form.js" nonce="<%= nonce %>"></script>
 
 	<script type="text/javascript" src="<%=duongDanIndex%>/js/main.js"></script>
-	<script type="text/javascript">
+	<script type="text/javascript" nonce="<%= nonce %>">
 		$(document).ready(function() {
 			$('#sidebarCollapse').on('click', function() {
 				$('#sidebar').toggleClass('active');
