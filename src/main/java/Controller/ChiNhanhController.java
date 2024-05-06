@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
@@ -83,21 +84,39 @@ public class ChiNhanhController extends HttpServlet {
 	    response.sendRedirect(request.getContextPath() + "/pages/chinhanh_thongtin.jsp");
 	}
 	
-	private void taoCN(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
-		String macn =  request.getParameter("macn_input1");
-		String tencn =  request.getParameter("tencn_input1");
+	private void taoCN(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException {
+	    try {
+	        String macn =  request.getParameter("macn_input1");
+	        String tencn =  request.getParameter("tencn_input1");
 
-		Random random = new Random();
-		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		String mapq = random.ints(3, 0, alphabet.length())
-				.mapToObj(alphabet::charAt)
-				.map(Object::toString)
-				.collect(Collectors.joining());
+	        if (macn != null && tencn != null && !macn.isEmpty() && !tencn.isEmpty()) {
+	            Random random = new Random();
+	            String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	            String mapq = random.ints(3, 0, alphabet.length())
+	                                .mapToObj(alphabet::charAt)
+	                                .map(Object::toString)
+	                                .collect(Collectors.joining());
 
-		cn.taoCN(macn,tencn);
-		bpq.insertBPQonCN(mapq,"giamdoc",macn);
-		listChinhanh(request, response);
+	            cn.taoCN(macn, tencn);
+	            bpq.insertBPQonCN(mapq, "giamdoc", macn);
+	            listChinhanh(request, response);
+	        } else {
+	        	response.setContentType("text/html;charset=UTF-8");
+	        	PrintWriter out = response.getWriter(); 
+	        	// Hiển thị thông báo cảnh báo nếu thiếu thông tin
+	            String alertMessage = "Thông tin để rỗng hoặc bị trùng vui lòng điền lại";
+	            out.println("<script>alert('" + alertMessage + "');</script>");
+	        }
+	    } catch (Exception e) {
+	    	response.setContentType("text/html;charset=UTF-8");
+	    	PrintWriter out = response.getWriter(); 
+        	// Hiển thị thông báo cảnh báo nếu thiếu thông tin
+            String alertMessage = "Lỗi từ hệ thống";
+            out.println("<script>alert('" + alertMessage + "');</script>"); 
+	    }
 	}
+	
+	
 	private void suaCN(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 		String maCN =  request.getParameter("macn_input2");
 		String maGD =  request.getParameter("magd_input2");

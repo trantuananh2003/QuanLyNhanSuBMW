@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
@@ -31,7 +32,6 @@ public class PhongBanController extends HttpServlet {
 		cn= new ChiNhanhDAO();
 		bpq = new BangPhanQuyenDAO();
 		}
-
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
@@ -80,38 +80,62 @@ public class PhongBanController extends HttpServlet {
 		request.getSession().setAttribute("listPB", listPB);
 	    response.sendRedirect(request.getContextPath() + "/pages/phongban_thongtin.jsp");
 	}
-	
+
 	private void taoPB(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
-		String mapb =  request.getParameter("mapb_input1");
-		String tenpb =  request.getParameter("tenpb_input1");
-		String chinhanh =  request.getParameter("macn_input1");
+		
+		try {
+			String mapb =  request.getParameter("mapb_input1");
+			String tenpb =  request.getParameter("tenpb_input1");
+			String chinhanh =  request.getParameter("macn_input1");
+			
+			if(mapb != null && tenpb != null && chinhanh != null && !mapb.isEmpty() && !tenpb.isEmpty() && !chinhanh.isEmpty())
+			{
+				Random random = new Random();
+				String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+				String mapq = random.ints(3, 0, alphabet.length())
+						.mapToObj(alphabet::charAt)
+						.map(Object::toString)
+						.collect(Collectors.joining());
 
-		Random random = new Random();
-		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		String mapq = random.ints(3, 0, alphabet.length())
-				.mapToObj(alphabet::charAt)
-				.map(Object::toString)
-				.collect(Collectors.joining());
-
-		List<ChiNhanh> list = this.cn.SelectAllChiNhanh();
-		System.out.println(list);
-		boolean chinhanhExists = false;
-		for (ChiNhanh cn : list) {
-			if (cn.getMaCN().equals(chinhanh)) {
-				chinhanhExists = true;
-				break;
+				List<ChiNhanh> list = this.cn.SelectAllChiNhanh();
+				System.out.println(list);
+				boolean chinhanhExists = false;
+				for (ChiNhanh cn : list) {
+					if (cn.getMaCN().equals(chinhanh)) {
+						chinhanhExists = true;
+						break;
+					}
+				}
+				if (chinhanh == null || chinhanhExists==false) {
+					// If chinhanh does not exist, set an error message in the request and forward back to the form
+					request.setAttribute("errorMessage", "Chi Nhanh does not exist");
+					response.sendRedirect(request.getContextPath() + "/pages/phongban_thongtin.jsp");
+				}  else {
+					pb.taoPB(mapb,tenpb,chinhanh);
+					bpq.insertBPQonPB(mapq,"truongphong",chinhanh,mapb);
+					listPhongBan(request, response);
+				}
 			}
-		}
-		if (chinhanh == null || chinhanhExists==false) {
-			// If chinhanh does not exist, set an error message in the request and forward back to the form
-			request.setAttribute("errorMessage", "Chi Nhanh does not exist");
-			response.sendRedirect(request.getContextPath() + "/pages/phongban_thongtin.jsp");
-		}  else {
-			pb.taoPB(mapb,tenpb,chinhanh);
-			bpq.insertBPQonPB(mapq,"truongphong",chinhanh,mapb);
-			listPhongBan(request, response);
+			else
+			{
+				String messeage = "Thông tin để rỗng hoặc bị trùng vui lòng điền lại";
+				sendCatchError(request,response, messeage);
+			}
+		}catch(Exception e) {
+			String messeage = "Lỗi từ hệ thống";
+			sendCatchError(request,response, messeage);
 		}
 	}
+
+	private void sendCatchError(HttpServletRequest request, HttpServletResponse response, String alertMessage)  
+			throws SQLException, IOException, ServletException 
+	{
+    	response.setContentType("text/html;charset=UTF-8");
+    	PrintWriter out = response.getWriter(); 
+    	// Hiển thị thông báo cảnh báo nếu thiếu thông tin
+        out.println("<script>alert('" + alertMessage + "');</script>"); 
+	}
+	
 	private void suaPB(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 		String mapb =  request.getParameter("mapb_input2");
 		String maGD =  request.getParameter("matp_input2");
@@ -134,7 +158,5 @@ public class PhongBanController extends HttpServlet {
 		pb.updateQuyenPB(maNV,maPB);    
 		listPhongBan(request, response);
 	}
-
-
 
 }

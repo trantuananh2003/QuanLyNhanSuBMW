@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -82,38 +83,116 @@ public class KhenthuongKyluatController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-	
+
 	private void listKT(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		LoginBean acc =(LoginBean) request.getSession().getAttribute("accLogin");
-		List<KhenThuongKyLuat> listKT = dao.LayKT(acc.getMaNhanvien());
-		request.getSession().setAttribute("listKT", listKT);
-	    response.sendRedirect(request.getContextPath() + "/pages/KhenThuong.jsp");
+		try {
+			LoginBean acc =(LoginBean) request.getSession().getAttribute("accLogin");
+			if(acc==null)
+			{
+		        String alertMessage = "Vui lòng đăng nhập";
+				sendCatchError(request,response, alertMessage);	
+	            response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+			}
+			else
+			{
+				List<KhenThuongKyLuat> listKT = dao.LayKT(acc.getMaNhanvien());
+				request.getSession().setAttribute("listKT", listKT);
+			}
+		    response.sendRedirect(request.getContextPath() + "/pages/KhenThuong.jsp");
+		}
+		catch (Exception e) 
+		{
+	        String alertMessage = "Lỗi từ hệ thống";
+			sendCatchError(request,response, alertMessage);		
+		}
 	}
+
 	private void listKL(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		LoginBean acc =(LoginBean) request.getSession().getAttribute("accLogin");
-		List<KhenThuongKyLuat> listKL = dao.LayKL(acc.getMaNhanvien());
-		request.getSession().setAttribute("listKL", listKL);
-	    response.sendRedirect(request.getContextPath() + "/pages/KyLuat.jsp");
+		try {
+			LoginBean acc =(LoginBean) request.getSession().getAttribute("accLogin");
+			if(acc==null)
+			{
+		        String alertMessage = "Vui lòng đăng nhập";
+				sendCatchError(request,response, alertMessage);
+	            response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+			}
+			else
+			{
+				List<KhenThuongKyLuat> listKL = dao.LayKL(acc.getMaNhanvien());
+				request.getSession().setAttribute("listKL", listKL);
+			    response.sendRedirect(request.getContextPath() + "/pages/KyLuat.jsp");}
+			}
+		catch (Exception e) {
+	        String alertMessage = "Lỗi từ hệ thống";
+			sendCatchError(request,response, alertMessage);
+	    }
 	    
 	}
-	
+
+	private void sendCatchError(HttpServletRequest request, HttpServletResponse response, String alertMessage)  
+			throws SQLException, IOException, ServletException 
+	{
+    	response.setContentType("text/html;charset=UTF-8");
+    	PrintWriter out = response.getWriter(); 
+    	// Hiển thị thông báo cảnh báo nếu thiếu thông tin
+        out.println("<script>alert('" + alertMessage + "');</script>"); 
+	}
+
 	private void listKTKL_trangthai(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		LoginBean acc =(LoginBean) request.getSession().getAttribute("accLogin");
-		List<KhenThuongKyLuat> listKTKL = dao.LayKTKL_all(acc.getMaNhanvien());
-		request.setAttribute("listKTKL_trangthai", listKTKL);
-	    RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/khenthuongkl_taodon.jsp");
-		dispatcher.forward(request, response);
+		try {
+			LoginBean acc =(LoginBean) request.getSession().getAttribute("accLogin");
+			if(acc==null)
+			{
+		        String alertMessage = "Vui lòng đăng nhập";
+				sendCatchError(request,response, alertMessage);	
+	            response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+			}
+			else
+			{
+				List<KhenThuongKyLuat> listKTKL = dao.LayKTKL_all(acc.getMaNhanvien());
+				request.setAttribute("listKTKL_trangthai", listKTKL);
+			    RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/khenthuongkl_taodon.jsp");
+				dispatcher.forward(request, response);
+			}
+		    response.sendRedirect(request.getContextPath() + "/pages/KhenThuong.jsp");
+		}
+		catch (Exception e) 
+		{
+	        String alertMessage = "Lỗi từ hệ thống";
+			sendCatchError(request,response, alertMessage);		
+		}
+		
 	}
+
 	private void listKTKL_duyet(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		List<KhenThuongKyLuat> listKTKL = dao.LayKTKL_duyet();
+
 		
-		request.setAttribute("listKTKL_duyet", listKTKL);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/khenthuongkl_duyetdon.jsp");
-		dispatcher.forward(request, response);
+		try {
+			LoginBean acc =(LoginBean) request.getSession().getAttribute("accLogin");
+			if(acc==null)
+			{
+		        String alertMessage = "Vui lòng đăng nhập";
+				sendCatchError(request,response, alertMessage);	
+	            response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+			}
+			else
+			{
+				List<KhenThuongKyLuat> listKTKL = dao.LayKTKL_duyet();
+				request.setAttribute("listKTKL_duyet", listKTKL);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/khenthuongkl_duyetdon.jsp");
+				dispatcher.forward(request, response);
+			}
+		    response.sendRedirect(request.getContextPath() + "/pages/KhenThuong.jsp");
+		}
+		catch (Exception e) 
+		{
+	        String alertMessage = "Lỗi từ hệ thống";
+			sendCatchError(request,response, alertMessage);		
+		}
 	}
 	
 	private void taoDonKT(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {

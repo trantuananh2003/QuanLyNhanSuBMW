@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
@@ -77,28 +78,90 @@ public class KhieuNaiController extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	
+
 	private void listKhieunai_chuaduyet(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		LoginBean acc =(LoginBean) request.getSession().getAttribute("accLogin");
-		List<KhieuNai> listKN = khieunaidao.LayKNChuaDuyet(acc);
-		request.getSession().setAttribute("listKhieunaiChuaduyet", listKN);
-	    response.sendRedirect(request.getContextPath() + "/pages/khieunaiChuaDuyet.jsp");
+		try
+		{
+			LoginBean acc =(LoginBean) request.getSession().getAttribute("accLogin");
+			if(acc==null)
+			{
+		        String alertMessage = "Vui lòng đăng nhập";
+				sendCatchError(request,response, alertMessage);
+	            response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+			}
+			else
+			{
+				List<KhieuNai> listKN = khieunaidao.LayKNChuaDuyet(acc);
+				request.getSession().setAttribute("listKhieunaiChuaduyet", listKN);
+			    response.sendRedirect(request.getContextPath() + "/pages/khieunaiChuaDuyet.jsp");
+			}
+		}
+		catch (Exception e) {
+	        String alertMessage = "Lỗi từ hệ thống";
+			sendCatchError(request,response, alertMessage);
+	    }
 	}
+
 	private void listKhieunai_daduyet(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		LoginBean acc =(LoginBean) request.getSession().getAttribute("accLogin");
-		List<KhieuNai> listKN = khieunaidao.LayKNDaDuyet(acc);
-		request.getSession().setAttribute("listKhieunaiDaduyet", listKN);
-	    response.sendRedirect(request.getContextPath() + "/pages/khieunaiDaDuyet.jsp");
+		try
+		{
+			LoginBean acc =(LoginBean) request.getSession().getAttribute("accLogin");
+			if(acc==null)
+			{
+		        String alertMessage = "Vui lòng đăng nhập";
+				sendCatchError(request,response, alertMessage);
+	            response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+			}
+			else
+			{
+				List<KhieuNai> listKN = khieunaidao.LayKNDaDuyet(acc);
+				request.getSession().setAttribute("listKhieunaiDaduyet", listKN);
+			    response.sendRedirect(request.getContextPath() + "/pages/khieunaiDaDuyet.jsp");
+			}
+		}
+		catch (Exception e) {
+	        String alertMessage = "Lỗi từ hệ thống";
+			sendCatchError(request,response, alertMessage);
+	    }
+
 	}
+
+	private void sendCatchError(HttpServletRequest request, HttpServletResponse response, String alertMessage)  
+			throws SQLException, IOException, ServletException 
+	{
+    	response.setContentType("text/html;charset=UTF-8");
+    	PrintWriter out = response.getWriter(); 
+    	// Hiển thị thông báo cảnh báo nếu thiếu thông tin
+        out.println("<script>alert('" + alertMessage + "');</script>"); 
+	}
+
 	private void listKhieunai_choduyet(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		LoginBean acc = (LoginBean) request.getSession().getAttribute("accLogin");
-		List<KhieuNai> listKN = khieunaidao.LayKNChoDuyet(acc);
-		request.getSession().setAttribute("listKhieunaiChoduyet", listKN);
-	    response.sendRedirect(request.getContextPath() + "/pages/khieunaiChoDuyet.jsp");
+		
+		try
+		{
+			LoginBean acc =(LoginBean) request.getSession().getAttribute("accLogin");
+			if(acc==null)
+			{
+		        String alertMessage = "Vui lòng đăng nhập";
+				sendCatchError(request,response, alertMessage);
+	            response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+			}
+			else
+			{
+				List<KhieuNai> listKN = khieunaidao.LayKNChoDuyet(acc);
+				request.getSession().setAttribute("listKhieunaiChoduyet", listKN);
+			    response.sendRedirect(request.getContextPath() + "/pages/khieunaiChoDuyet.jsp");
+			}
+		}
+		catch (Exception e) {
+	        String alertMessage = "Lỗi từ hệ thống";
+			sendCatchError(request,response, alertMessage);
+	    }
 	}
+	
 	
 	private void updatekn_choduyet(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 		String id =  request.getParameter("maKN_input");

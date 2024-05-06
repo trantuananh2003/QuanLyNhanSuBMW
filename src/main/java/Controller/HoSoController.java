@@ -35,12 +35,14 @@ public class HoSoController extends HttpServlet {
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
 
+		
 		System.out.println("Action: " + action);
 		if(action==null) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("pages/login.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
+		
 		try {
 			switch (action) {
 			case "insertHS":
@@ -154,42 +156,42 @@ public class HoSoController extends HttpServlet {
 
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String maNV = request.getParameter("manv");
+		try {
+			String maNV = request.getParameter("manv");
 
-		HoSo existingHS = hsDAO.selectHoSoByMaNV(maNV);
-		System.out.println(existingHS);
+			HoSo existingHS = hsDAO.selectHoSoByMaNV(maNV);
+			System.out.println(existingHS);
 
-		NhanVien existingNV = nvDAO.selectNhanVien(maNV);
-		if(existingHS != null)
-		{
-			request.setAttribute("hoso", existingHS);
+			NhanVien existingNV = nvDAO.selectNhanVien(maNV);
+			if(existingHS != null)
+			{
+				request.setAttribute("hoso", existingHS);
 
-			request.setAttribute("nhanvien", existingNV);
-			request.setAttribute("hanhdongthemnhanvien", "hosoForm");
-			request.setAttribute("hanhdongtacdong", "edit");
+				request.setAttribute("nhanvien", existingNV);
+				request.setAttribute("hanhdongthemnhanvien", "hosoForm");
+				request.setAttribute("hanhdongtacdong", "edit");
 
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/themnhanvien.jsp");
-			dispatcher.forward(request, response);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/themnhanvien.jsp");
+				dispatcher.forward(request, response);
+			}
+			else if(existingHS == null)
+			{
+				String maHS = request.getParameter("inputMaHS");
+
+				HoSo hsNull = new HoSo(maHS, existingNV.getMaNV(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+				request.setAttribute("hoso", hsNull);
+
+				request.setAttribute("nhanvien", existingNV);
+				request.setAttribute("hanhdongthemnhanvien", "hosoForm");
+				request.setAttribute("hanhdongtacdong", "edit");
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/themnhanvien.jsp");
+				dispatcher.forward(request, response);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
-		else if(existingHS == null)
-		{
-			String maHS = request.getParameter("inputMaHS");
-
-			HoSo hsNull = new HoSo(maHS, existingNV.getMaNV(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-			request.setAttribute("hoso", hsNull);
-
-			request.setAttribute("nhanvien", existingNV);
-			request.setAttribute("hanhdongthemnhanvien", "hosoForm");
-			request.setAttribute("hanhdongtacdong", "edit");
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/themnhanvien.jsp");
-			dispatcher.forward(request, response);
-		}
-
-
 	}
 	
-
-
 
 }
